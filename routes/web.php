@@ -20,4 +20,5 @@ Route::get('/create', function () {
 });
 Auth::routes();
 
+Route::resource('tasks', 'TasksController');
 Route::get('/home', 'HomeController@index')->name('home');

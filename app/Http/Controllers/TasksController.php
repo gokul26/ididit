@@ -15,6 +15,8 @@ class TasksController extends Controller
     public function index()
     {
         //
+        $posts = tasks::orderBy('created_at','desc')->paginate(2);
+        return view('tasks.tasksindex')->with('tasks',$posts);
     }
 
     /**
@@ -35,7 +37,19 @@ class TasksController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $this->validate($request, 
+        [
+            'body'=>'required'
+        ]);
+
+        // Creating Posts
+        $post = new tasks;
+        $post->title = "note_".auth()->user()->id;
+        $post->body = $request->input('body');
+        $post->user_id = auth()->user()->id;
+        $post->save();
+        return redirect('/home')->with('success', 'Post Created');
     }
 
     /**
