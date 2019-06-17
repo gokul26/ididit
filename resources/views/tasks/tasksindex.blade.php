@@ -12,20 +12,25 @@
                         {{$creator->name}}
                     @endforeach
                 </h3>
-                <div>
+                <a href="/tasks/{{$post->id}}">
                     {!!$post->body!!}
-                    Posted 
-                    {{$post->created_at->diffForHumans()}}
-                    <span class="pull-right" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
-                        <img style="width:20px;" src="{{ asset('images/heart.png') }}">
-                        <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
-                        {{$myvote}}
-                    </span>
-                    <span class="pull-right" id="cmt_{{$post->id}}">
-                        <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                        {{$cmts}} Comments
-                    </span>
-                </div>
+                </a>
+                Posted {{$post->created_at->diffForHumans()}}
+                <span class="pull-right" id="cmt_{{$post->id}}" >
+                    <img style="width:20px;" src="{{ asset('images/comment.png') }}">
+                    <a href="/tasks/{{$post->id}}">{{$cmts}} Comments</a>
+                </span>
+                @if($myvote>0)
+                <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
+                    <img style="width:20px;" src="{{ asset('images/heart.png') }}">
+                    <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
+                </span>
+                @else
+                <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
+                    <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
+                    <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
+                </span>
+                @endif
             </div>
         </div>
         @endforeach

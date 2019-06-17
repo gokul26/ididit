@@ -36,3 +36,44 @@ function unlike(x)
         $('#lkcnt_'+x).text(likecount);
     }});
 }
+
+// Comment function for Notes
+
+function comment(x)
+{
+    var comment = $('#ncomt').val();
+    $.ajax({
+       url: "/comment",
+       method: 'post',
+       data: {
+           '_token': $('input[name=_token]').val(),'noteid': x, 'comment': comment,
+       },
+       success: function(result){
+           console.log(result);
+           $('#ncomt').val('');
+           getComment(x);
+       }});
+}
+
+// function to get Comments
+
+function getComment(x)
+{
+    var comment = $('#ncomt').val();
+    $.ajax({
+       url: "/getComment",
+       method: 'post',
+       data: {
+           '_token': $('input[name=_token]').val(),'noteid': x
+       },
+       success: function(result)
+       {
+           console.log(result);
+           var branchName = $('#comments_box').empty();
+           $.each(result.comments, function(i, comment)
+           {
+               var com_div = '<div class="well">'+comment.comment+' - <small>'+comment.created_at+'</small></div>';
+               $('#comments_box').append(com_div);
+            });
+       }});
+}

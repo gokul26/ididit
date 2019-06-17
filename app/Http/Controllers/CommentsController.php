@@ -35,7 +35,7 @@ class CommentsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

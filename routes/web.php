@@ -24,3 +24,5 @@ Route::resource('tasks', 'TasksController');
 Route::get('/home', 'HomeController@index')->name('home');
 Route::post('/like','AjaxController@like');
 Route::post('/unlike','AjaxController@unlike');
+Route::post('/comment','AjaxController@comment');
+Route::post('/getComment','AjaxController@getComment');

@@ -10,11 +10,6 @@ use Illuminate\Http\Request;
 
 class TasksController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         //
@@ -22,35 +17,18 @@ class TasksController extends Controller
         foreach ($tasks as $post)
         {
             $votes = Voting::where('postid', '=', $post['id'])->count();
-            $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
-        }
-        foreach ($tasks as $post)
-        {
+            echo $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
             $cmts = Comments::where('postid', '=', $post['id'])->count();
-        }
-        foreach ($tasks as $post)
-        {
             $createdBy = Users::select('name')->where('id', '=', $post['user_id'])->get();
         }
         return view('tasks.tasksindex', compact('tasks', 'votes', 'cmts', 'createdBy','myvote'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         
@@ -68,46 +46,27 @@ class TasksController extends Controller
         return redirect('/tasks')->with('success', 'Post Created');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
-    public function show(tasks $tasks)
+    public function show($id)
     {
-        //
+        $tasks = tasks::findOrFail($id);
+        $tuserid = $tasks->user_id;
+        $creatorname = Users::select('name')->where('id', $tuserid)->get();
+        $comments = Comments::where('postid', '=', $id)->count();
+        $likes = Voting::where('postid', '=', $id)->count();
+        $myvote = Voting::where('postid', '=', $id)->where('userid', '=', auth()->user()->id)->count();
+        return view('tasks.tasksshow',compact('tasks','creatorname', 'likes', 'comments'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
     public function edit(tasks $tasks)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, tasks $tasks)
     {
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\tasks  $tasks
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(tasks $tasks)
     {
         //
