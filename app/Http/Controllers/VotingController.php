@@ -35,7 +35,9 @@ class VotingController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
+        $msg = "This is a simple message.";
+        return response()->json(array('msg'=> $msg), 200);
     }
 
     /**
@@ -81,5 +83,17 @@ class VotingController extends Controller
     public function destroy(voting $voting)
     {
         //
+    }
+
+    public function like($x)
+    {
+        $msg = "This is a like message.";
+        return response()->json(array('msg'=> $msg), 200);
+    }
+
+    public function unlike($x)
+    {
+        $msg = "This is a unlike message.";
+        return response()->json(array('msg'=> $msg), 200);
     }
 }

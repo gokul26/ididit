@@ -22,3 +22,5 @@ Auth::routes();
 
 Route::resource('tasks', 'TasksController');
 Route::get('/home', 'HomeController@index')->name('home');
+Route::post('/like','AjaxController@like');
+Route::post('/unlike','AjaxController@unlike');

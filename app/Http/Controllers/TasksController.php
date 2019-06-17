@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\tasks;
+use App\Users;
+use App\voting;
+use App\Comments;
 use Illuminate\Http\Request;
 
 class TasksController extends Controller
@@ -15,8 +18,21 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $posts = tasks::orderBy('created_at','desc')->paginate(2);
-        return view('tasks.tasksindex')->with('tasks',$posts);
+        $tasks = tasks::orderBy('created_at','desc')->paginate(2);
+        foreach ($tasks as $post)
+        {
+            $votes = Voting::where('postid', '=', $post['id'])->count();
+            $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
+        }
+        foreach ($tasks as $post)
+        {
+            $cmts = Comments::where('postid', '=', $post['id'])->count();
+        }
+        foreach ($tasks as $post)
+        {
+            $createdBy = Users::select('name')->where('id', '=', $post['user_id'])->get();
+        }
+        return view('tasks.tasksindex', compact('tasks', 'votes', 'cmts', 'createdBy','myvote'));
     }
 
     /**
@@ -49,7 +65,7 @@ class TasksController extends Controller
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
         $post->save();
-        return redirect('/home')->with('success', 'Post Created');
+        return redirect('/tasks')->with('success', 'Post Created');
     }
 
     /**
