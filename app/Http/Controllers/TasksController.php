@@ -17,7 +17,7 @@ class TasksController extends Controller
         foreach ($tasks as $post)
         {
             $votes = Voting::where('postid', '=', $post['id'])->count();
-            echo $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
+            $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
             $cmts = Comments::where('postid', '=', $post['id'])->count();
             $createdBy = Users::select('name')->where('id', '=', $post['user_id'])->get();
         }

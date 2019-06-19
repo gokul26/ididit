@@ -21,16 +21,14 @@
                     <a href="/tasks/{{$post->id}}">{{$cmts}} Comments</a>
                 </span>
                 @if($myvote>0)
-                <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
-                    <img style="width:20px;" src="{{ asset('images/heart.png') }}">
-                    <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
-                </span>
+                    <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
+                        <img style="width:20px;" src="{{ asset('images/heart.png') }}">
                 @else
-                <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
-                    <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
+                    <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
+                        <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
+                @endif
                     <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
                 </span>
-                @endif
             </div>
         </div>
         @endforeach
