@@ -7,7 +7,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">Dashboard
                     <span class="pull-right">
-                        <a href="/create" class="btn btn-sm btn-primary">Create Points</a>
+                        <a href="/create" class="btn btn-sm btn-primary">Post something Interesting</a>
                     </span>
                 </div>
                 <div class="panel-body">
@@ -16,8 +16,7 @@
                             {{ session('status') }}
                         </div>
                     @endif
-
-                    You are logged in!
+                    Start your Contribution by posting Interesting.
                 </div>
             </div>
         </div>
