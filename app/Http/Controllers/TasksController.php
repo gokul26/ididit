@@ -14,14 +14,17 @@ class TasksController extends Controller
     {
         //
         $tasks = tasks::orderBy('created_at','desc')->with('users')->paginate(6);
+        $cmts = array();
         foreach ($tasks as $post)
         {
-            $votes = Voting::where('postid', '=', $post['id'])->get();
+            $votes = Voting::where('postid', '=', $post['id'])->count();
             $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->get();
             $cmts = Comments::where('postid', '=', $post['id'])->get();
-            $createdBy = Users::select('name')->where('id', '=', $post['user_id'])->get();
         }
-        return view('tasks.tasksindex', compact('tasks', 'votes', 'cmts','myvote'));
+        // echo "<pre>";
+        // var_dump($cmts->toArray());
+        // echo "</pre>";
+        return view('tasks.tasksindex', compact('tasks','votes','cmts','myvote'));
     }
 
     public function create()
@@ -56,11 +59,10 @@ class TasksController extends Controller
         $tasks = tasks::findOrFail($id);
         $tuserid = $tasks->user_id;
         $creatorname = Users::select('name')->where('id', $tuserid)->get();
-        $comments = Comments::where('postid', '=', $id)->count();
         $commentdata = Comments::where('postid', '=', $id)->orderBy('created_at','desc')->get();
         $likes = Voting::where('postid', '=', $id)->count();
         $myvote = Voting::where('postid', '=', $id)->where('userid', '=', auth()->user()->id)->count();
-        return view('tasks.tasksshow',compact('tasks','commentdata','creatorname', 'likes', 'comments'));
+        return view('tasks.tasksshow',compact('tasks','commentdata','creatorname','likes', 'myvote'));
     }
 
     public function edit(tasks $tasks)

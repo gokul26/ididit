@@ -13,10 +13,15 @@
             <small>Posted {{$tasks->created_at->diffForHumans()}}</small>
             <span class="pull-right leftspc" id="cmt_{{$tasks->id}}" >
                 <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                {{$comments}} Comments
+                {{count($commentdata)}} Comments
             </span>
-            <span class="pull-right" id="spnlk_{{$tasks->id}}" onclick="like({{$tasks->id}})">
+            @if ($myvote>0)
+                <span class="pull-right" id="spnlk_{{$tasks->id}}" onclick="unlike({{$tasks->id}})">
                 <img style="width:20px;" src="{{ asset('images/heart.png') }}">
+            @else
+                <span class="pull-right" id="spnlk_{{$tasks->id}}" onclick="like({{$tasks->id}})">
+                <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
+            @endif
                 <span id="lkcnt_{{$tasks->id}}">{{$likes}}</span>
             </span>
             <hr>
@@ -24,12 +29,15 @@
             <div id="comments_box"> 
                 @if(count($commentdata)>0)
                     @foreach ($commentdata as $comments)
-            <div class="well">
-                <span><strong>{{$comments->username}}</strong></span>
-            <div>
-                {{$comments->comment}}<small class="pull-right">{{$comments->created_at}}</small>
-            </div>
-            </div>
+                        <div class="well">
+                            <span>
+                                <strong>{{$comments->username}}</strong>
+                            </span>
+                        <div>
+                            {{$comments->comment}}
+                            <small class="pull-right">{{$comments->created_at}}</small>
+                        </div>
+                        </div>
                     @endforeach
                 @else
                     <div class="well text-center">No Comments Posted Yet</div>
