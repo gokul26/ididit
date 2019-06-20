@@ -70,6 +70,9 @@ function getComment(x)
        {
            console.log(result);
            var branchName = $('#comments_box').empty();
+           var totalcom = result.comments;
+           console.log(totalcom);
+           $('#cmtcnt').text(totalcom.length);
            $.each(result.comments, function(i, comment)
            {
                var com_div = '<div class="well"><span><strong>'+comment.username+'</strong></span><div>'+comment.comment+'<small class="pull-right">'+comment.created_at+'</small></div></div>';

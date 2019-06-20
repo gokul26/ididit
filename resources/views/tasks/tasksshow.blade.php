@@ -13,7 +13,7 @@
             <small>Posted {{$tasks->created_at->diffForHumans()}}</small>
             <span class="pull-right leftspc" id="cmt_{{$tasks->id}}" >
                 <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                {{count($commentdata)}} Comments
+                <span id="cmtcnt">{{count($commentdata)}}</span> Comments
             </span>
             @if ($myvote>0)
                 <span class="pull-right" id="spnlk_{{$tasks->id}}" onclick="unlike({{$tasks->id}})">

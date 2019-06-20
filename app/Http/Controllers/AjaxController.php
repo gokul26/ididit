@@ -15,14 +15,19 @@ class AjaxController extends Controller
         $msg = "This is a like message.";
         $noteid= $request->input('noteid');
         $vote = new voting;
+        $votecount= $vote->where('postid', '=', $noteid)->count();
         $vote->postid = $request->input('noteid');
         $vote->userid = auth()->user()->id;
         $vote->save();
-        $votecount= $vote->where('postid', '=', $noteid)->count();
-        // $tasks = new tasks;
-        // $tasks->likes = $votecount;
-        // $tasks->save();
-        return response()->json(array('msg'=> $msg,'noteid'=>$noteid,'status'=>'success', 'votecount'=>$votecount), 200);
+        // $posts = new tasks;
+        // $posts->likes = $votecount;
+        // $posts->save();
+        return response()->json(
+            array('msg'=> $msg,
+            'noteid'=>$noteid,
+            'status'=>'success', 
+            'votecount'=>$votecount)
+            , 200);
     }
 
     public function unlike(Request $request) 
@@ -33,7 +38,12 @@ class AjaxController extends Controller
         $user = voting::where('userid','=',$vuserid)->where('postid','=',$noteid)->delete();
         $vote = new voting;
         $votecount= $vote->where('postid', '=', $noteid)->count();
-        return response()->json(array('msg'=> $msg,'noteid'=>$noteid,'status'=>'success', 'votecount'=>$votecount), 200);
+        return response()->json(
+                array(
+                    'msg'=> $msg,
+                    'noteid'=>$noteid,
+                    'status'=>'success', 
+                    'votecount'=>$votecount), 200);
     }
 
     public function comment(Request $request)
@@ -53,7 +63,12 @@ class AjaxController extends Controller
         // $tasks = new tasks;
         // $tasks->comment = $votecount;
         // $tasks->save();
-        return response()->json(array('msg'=> $msg, 'noteid'=> $request->input('noteid'), 'comment'=> $request->input('comment') ,'status'=>'success'), 200);
+        return response()->json(
+            array('msg'=> $msg, 
+                'noteid'=> $request->input('noteid'), 
+                'comment'=> $request->input('comment'),
+                'status'=>'success'), 200
+        );
     }
 
     public function getComment(Request $request)
@@ -65,6 +80,11 @@ class AjaxController extends Controller
         {
             $createdBy = Users::select('name')->where('id', '=', $comment['userid'])->get();
         }
-        return response()->json(array('msg'=> $msg, 'noteid'=> $request->input('noteid'), 'comments'=> $comments, 'createdBy' =>$createdBy ,'status'=>'success'), 200);
+        return response()->json(
+            array('msg'=> $msg, 
+                'noteid'=> $request->input('noteid'), 
+                'comments'=> $comments, 
+                'createdBy' =>$createdBy ,
+                'status'=>'success'), 200);
     }
 }
