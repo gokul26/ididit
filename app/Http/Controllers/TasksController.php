@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Tasks;
+use App\tasks;
 use App\Users;
 use App\voting;
 use App\Comments;
