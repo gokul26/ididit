@@ -40,11 +40,13 @@ class AjaxController extends Controller
     {
         $msg = "This is a Comment message.";
         $noteid =  $request->input('noteid');
+        $username = Users::find(auth()->user()->id);
+        $postby = $username->name;
         $cmts = new Comments;
         $cmts->postid = $request->input('noteid');
         $cmts->comment = $request->input('comment');
         $cmts->userid = auth()->user()->id;
-        $cmts->username = auth()->user()->name;
+        $cmts->username = $postby;
         $cmts->likes = "test";
         $cmts->save();
         $cmtcount= $cmts->where('postid', '=', $noteid)->count();

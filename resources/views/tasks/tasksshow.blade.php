@@ -11,11 +11,11 @@
             </h3>
             {!! $tasks->body !!}
             <small>Posted {{$tasks->created_at->diffForHumans()}}</small>
-            <span class="pull-right" id="cmt_{{$tasks->id}}" >
+            <span class="pull-right leftspc" id="cmt_{{$tasks->id}}" >
                 <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                <a href="/tasks/{{$tasks->id}}">{{$comments}} Comments</a>
+                {{$comments}} Comments
             </span>
-            <span class="pull-right leftspc" id="spnlk_{{$tasks->id}}" onclick="like({{$tasks->id}})">
+            <span class="pull-right" id="spnlk_{{$tasks->id}}" onclick="like({{$tasks->id}})">
                 <img style="width:20px;" src="{{ asset('images/heart.png') }}">
                 <span id="lkcnt_{{$tasks->id}}">{{$likes}}</span>
             </span>
@@ -24,10 +24,15 @@
             <div id="comments_box"> 
                 @if(count($commentdata)>0)
                     @foreach ($commentdata as $comments)
-                        <div class="well">{{$comments->comment}}<small class="pull-right">{{$comments->created_at}}</small></div>
+            <div class="well">
+                <span><strong>{{$comments->username}}</strong></span>
+            <div>
+                {{$comments->comment}}<small class="pull-right">{{$comments->created_at}}</small>
+            </div>
+            </div>
                     @endforeach
                 @else
-                    <div class="well">No Comments Posted Yet</div>
+                    <div class="well text-center">No Comments Posted Yet</div>
                 @endif
             </div>
         </div>

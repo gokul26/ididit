@@ -13,15 +13,15 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $tasks = tasks::orderBy('created_at','desc')->paginate(6);
+        $tasks = tasks::orderBy('created_at','desc')->with('users')->paginate(6);
         foreach ($tasks as $post)
         {
-            $votes = Voting::where('postid', '=', $post['id'])->count();
-            $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->count();
-            $cmts = Comments::where('postid', '=', $post['id'])->count();
+            $votes = Voting::where('postid', '=', $post['id'])->get();
+            $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->get();
+            $cmts = Comments::where('postid', '=', $post['id'])->get();
             $createdBy = Users::select('name')->where('id', '=', $post['user_id'])->get();
         }
-        return view('tasks.tasksindex', compact('tasks', 'votes', 'cmts', 'createdBy','myvote'));
+        return view('tasks.tasksindex', compact('tasks', 'votes', 'cmts','myvote'));
     }
 
     public function create()
@@ -38,11 +38,13 @@ class TasksController extends Controller
         ]);
 
         // Creating Posts
+        $username = Users::find(auth()->user()->id);
+        $postby = $username->name;
         $post = new tasks;
         $post->title = "note_".auth()->user()->id;
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
-        $post->username = auth()->user()->id;
+        $post->username = $postby;
         $post->likes = "0";
         $post->comments = "0";
         $post->save();

@@ -8,26 +8,24 @@
         <div class="col-md-6 col-sm-12">
             <div class="well">
                 <h3>
-                    @foreach ($createdBy as $creator)
-                        {{$creator->name}}
-                    @endforeach
+                    {{$post->username}}
                 </h3>
                 <a href="/tasks/{{$post->id}}">
                     {!!$post->body!!}
                 </a>
                 Posted {{$post->created_at->diffForHumans()}}
-                <span class="pull-right" id="cmt_{{$post->id}}" >
+                <span class="pull-right leftspc" id="cmt_{{$post->id}}" >
                     <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                    <a href="/tasks/{{$post->id}}">{{$cmts}} Comments</a>
+                    <a href="/tasks/{{$post->id}}">{{count($cmts)}} Comments</a>
                 </span>
-                @if($myvote>0)
-                    <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
+                @if(count($myvote)>0)
+                    <span class="pull-right" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
                         <img style="width:20px;" src="{{ asset('images/heart.png') }}">
                 @else
-                    <span class="pull-right leftspc" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
+                    <span class="pull-right" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
                         <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
                 @endif
-                    <span id="lkcnt_{{$post->id}}">{{$votes}}</span>
+                    <span id="lkcnt_{{$post->id}}">{{count($votes)}}</span>
                 </span>
             </div>
         </div>
