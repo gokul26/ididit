@@ -44,6 +44,7 @@ class AjaxController extends Controller
         $cmts->postid = $request->input('noteid');
         $cmts->comment = $request->input('comment');
         $cmts->userid = auth()->user()->id;
+        $cmts->username = auth()->user()->name;
         $cmts->likes = "test";
         $cmts->save();
         $cmtcount= $cmts->where('postid', '=', $noteid)->count();

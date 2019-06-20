@@ -21,7 +21,15 @@
             </span>
             <hr>
             {{-- Comments Div --}}
-            <div id="comments_box"></div>
+            <div id="comments_box"> 
+                @if(count($commentdata)>0)
+                    @foreach ($commentdata as $comments)
+                        <div class="well">{{$comments->comment}}<small class="pull-right">{{$comments->created_at}}</small></div>
+                    @endforeach
+                @else
+                    <div class="well">No Comments Posted Yet</div>
+                @endif
+            </div>
         </div>
         <div class="well">
             <div class="panel-body">

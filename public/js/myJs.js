@@ -72,7 +72,7 @@ function getComment(x)
            var branchName = $('#comments_box').empty();
            $.each(result.comments, function(i, comment)
            {
-               var com_div = '<div class="well">'+comment.comment+' - <small>'+comment.created_at+'</small></div>';
+               var com_div = '<div class="well">'+comment.comment+'  <small class="pull-right">'+comment.created_at+'</small></div>';
                $('#comments_box').append(com_div);
             });
        }});

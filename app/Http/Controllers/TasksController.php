@@ -13,7 +13,7 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $tasks = tasks::orderBy('created_at','desc')->paginate(2);
+        $tasks = tasks::orderBy('created_at','desc')->paginate(6);
         foreach ($tasks as $post)
         {
             $votes = Voting::where('postid', '=', $post['id'])->count();
@@ -42,6 +42,9 @@ class TasksController extends Controller
         $post->title = "note_".auth()->user()->id;
         $post->body = $request->input('body');
         $post->user_id = auth()->user()->id;
+        $post->username = auth()->user()->id;
+        $post->likes = "0";
+        $post->comments = "0";
         $post->save();
         return redirect('/tasks')->with('success', 'Post Created');
     }
@@ -52,9 +55,10 @@ class TasksController extends Controller
         $tuserid = $tasks->user_id;
         $creatorname = Users::select('name')->where('id', $tuserid)->get();
         $comments = Comments::where('postid', '=', $id)->count();
+        $commentdata = Comments::where('postid', '=', $id)->orderBy('created_at','desc')->get();
         $likes = Voting::where('postid', '=', $id)->count();
         $myvote = Voting::where('postid', '=', $id)->where('userid', '=', auth()->user()->id)->count();
-        return view('tasks.tasksshow',compact('tasks','creatorname', 'likes', 'comments'));
+        return view('tasks.tasksshow',compact('tasks','commentdata','creatorname', 'likes', 'comments'));
     }
 
     public function edit(tasks $tasks)
