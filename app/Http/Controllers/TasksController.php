@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\tasks;
+use App\Tasks;
 use App\Users;
 use App\voting;
 use App\Comments;
@@ -13,8 +13,7 @@ class TasksController extends Controller
     public function index()
     {
         //
-        $tasks = tasks::orderBy('created_at','desc')->with('users')->paginate(6);
-        $cmts = array();
+        $tasks = tasks::orderBy('created_at','desc')->paginate(6);
         foreach ($tasks as $post)
         {
             $votes = Voting::where('postid', '=', $post['id'])->count();

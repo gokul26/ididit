@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\voting;
 use App\tasks;
+use App\Task;
 use App\Users;
 use App\Comments;
 use Illuminate\Http\Request;
@@ -15,13 +16,13 @@ class AjaxController extends Controller
         $msg = "This is a like message.";
         $noteid= $request->input('noteid');
         $vote = new voting;
-        $votecount= $vote->where('postid', '=', $noteid)->count();
         $vote->postid = $request->input('noteid');
         $vote->userid = auth()->user()->id;
         $vote->save();
-        // $posts = new tasks;
-        // $posts->likes = $votecount;
-        // $posts->save();
+        $votecount= $vote->where('postid', '=', $noteid)->count();
+        $posts = new Task;
+        $posts->likes = $votecount;
+        $posts->save();
         return response()->json(
             array('msg'=> $msg,
             'noteid'=>$noteid,
