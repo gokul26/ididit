@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\voting;
 use App\tasks;
-use App\Task;
 use App\Users;
 use App\Comments;
 use Illuminate\Http\Request;
@@ -20,7 +19,7 @@ class AjaxController extends Controller
         $vote->userid = auth()->user()->id;
         $vote->save();
         $votecount= $vote->where('postid', '=', $noteid)->count();
-        $posts = new Task;
+        $posts = tasks::findOrFail($noteid);
         $posts->likes = $votecount;
         $posts->save();
         return response()->json(
@@ -61,13 +60,14 @@ class AjaxController extends Controller
         $cmts->likes = "test";
         $cmts->save();
         $cmtcount= $cmts->where('postid', '=', $noteid)->count();
-        // $tasks = new tasks;
-        // $tasks->comment = $votecount;
-        // $tasks->save();
+        $tasks = tasks::findOrFail($noteid);
+        $tasks->comments = $cmtcount;
+        $tasks->save();
         return response()->json(
             array('msg'=> $msg, 
                 'noteid'=> $request->input('noteid'), 
                 'comment'=> $request->input('comment'),
+                'commentcount'=> $cmtcount,
                 'status'=>'success'), 200
         );
     }

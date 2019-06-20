@@ -8,6 +8,7 @@
                 <div class="panel-heading">Dashboard
                     <span class="pull-right">
                         <a href="/create" class="btn btn-sm btn-primary">Post something Interesting</a>
+                        <a href="/tasks" class="btn btn-sm btn-success">See Posts</a>
                     </span>
                 </div>
                 <div class="panel-body">

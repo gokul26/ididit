@@ -16,14 +16,12 @@ class TasksController extends Controller
         $tasks = tasks::orderBy('created_at','desc')->paginate(6);
         foreach ($tasks as $post)
         {
-            $votes = Voting::where('postid', '=', $post['id'])->count();
             $myvote = Voting::where('postid', '=', $post['id'])->where('userid', '=', auth()->user()->id)->get();
-            $cmts = Comments::where('postid', '=', $post['id'])->get();
         }
         // echo "<pre>";
-        // var_dump($cmts->toArray());
+        // var_dump($tasks->toArray());
         // echo "</pre>";
-        return view('tasks.tasksindex', compact('tasks','votes','cmts','myvote'));
+        return view('tasks.tasksindex', compact('tasks','myvote'));
     }
 
     public function create()

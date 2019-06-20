@@ -16,16 +16,11 @@
                 Posted {{$post->created_at->diffForHumans()}}
                 <span class="pull-right leftspc" id="cmt_{{$post->id}}" >
                     <img style="width:20px;" src="{{ asset('images/comment.png') }}">
-                    <a href="/tasks/{{$post->id}}">{{count($cmts)}} Comments</a>
+                    <a href="/tasks/{{$post->id}}">{{$post->comments}} Comments</a>
                 </span>
-                @if(count($myvote)>0)
-                    <span class="pull-right" id="spnlk_{{$post->id}}" onclick="unlike({{$post->id}})">
-                        <img style="width:20px;" src="{{ asset('images/heart.png') }}">
-                @else
-                    <span class="pull-right" id="spnlk_{{$post->id}}" onclick="like({{$post->id}})">
-                        <img style="width:20px;" src="{{ asset('images/heart-empty.png') }}">
-                @endif
-                    <span id="lkcnt_{{$post->id}}">{{count($votes)}}</span>
+                <span class="pull-right">
+                    <img style="width:20px;" src="{{ asset('images/heart.png') }}">
+                    {{$post->likes}}
                 </span>
             </div>
         </div>
